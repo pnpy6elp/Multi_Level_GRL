@@ -1,5 +1,5 @@
 # Multi-Level Graph Representation Learning Through Predictive Community-based Partitioning
-An implementation Multi-Level GRL.
+An implementation of ML-GRL.
 
 # Abstract
 > Graph representation learning (GRL) aims to map a graph into a low-dimensional vector space while preserving graph topology and node properties. This study proposes a novel GRL model, Multi-Level GRL (simply, ML-GRL), that recursively partitions input graphs by selecting the most appropriate community detection algorithm at each graph or partitioned subgraph. To preserve the relationship between subgraphs, ML-GRL incorporates global graphs that effectively maintain the overall topology. ML-GRL employs a prediction model, which is pre-trained using graph-based features and covers a wide range of graph distributions, to estimate the GRL accuracy of each community detection algorithm without partitioning graphs or subgraphs and evaluating them. ML-GRL improves learning accuracy by selecting the most effective community detection algorithm while enhancing learning efficiency from parallel processing of partitioned subgraphs. Through extensive experiments with two different tasks, we demonstrate ML-GRL’s superiority over the six representative GRL models in terms of both learning accuracy and efficiency.
@@ -12,7 +12,7 @@ An implementation Multi-Level GRL.
 
 # Run
 ```
-python main.py --num_epochs 10 --batch_size 128 --dataset wikics --model graphsage --model_path ./new_model2 --core 35 --task link
+python main.py --num_epochs 10 --batch_size 128 --dataset wikics --model graphsage --model_path ./new_model2 --core 35 --minor 100 --sim 0.95 --task link
 ```
 - `--num_epochs`: the number of epochs.
 - `--batch_size`: batch size.

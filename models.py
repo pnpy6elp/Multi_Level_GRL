@@ -56,12 +56,15 @@ class ARMA(torch.nn.Module):
 class ASAP(torch.nn.Module):
     def __init__(self, input_dim, hidden_channels):
         super().__init__()
-        
+
+        # pool = ASAPooling(input_dim, ratio=0.5, GNN=LEConv,
+                          add_self_loops=False)
         self.conv1 = LEConv(input_dim, hidden_channels)
         self.conv2 = LEConv(hidden_channels, hidden_channels)
         self.conv3 = torch.nn.Linear(hidden_channels, 64) 
         
     def encode(self, x, edge_index):
+        # x = self.pool(x, edge_index)
         x = self.conv1(x, edge_index).relu()
         x = self.conv2(x, edge_index)
         return x

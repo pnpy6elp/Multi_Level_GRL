@@ -1,3 +1,10 @@
+import numpy as np
+from torch_geometric.utils.convert import from_networkx as fn
+import networkx as nx
+from networkx.algorithms import approximation
+import time
+import igraph as ig
+
 def bubble_sort(array):
     n = len(array)
     for i in range(n - 1):
@@ -13,12 +20,11 @@ def bubble_sort_reverse(array):
                 array[j], array[j + 1] = array[j + 1], array[j]
     return array
 def get_features(g_nx): # get graph-based features
-    i = fn(g_nx)
     features_li = []
     features = []
-    vertex = i.x.shape[0]
-    feat_dim = i.x.shape[1]
-    edge = i.edge_index.shape[1]
+    vertex = g_nx.number_of_nodes()
+    feat_dim = len(next(iter(nx.get_node_attributes(g_nx, "x").values())))
+    edge = g_nx.number_of_edges()
     dense = nx.density(g_nx)
     cen = nx.degree_centrality(g_nx)
     c_mean = np.array(list(cen.values())).mean()
@@ -59,7 +65,7 @@ def predict_acc(feature): # to btain predicted accuracy
     sc_dit["infomap"] = im_sc[0]
     sc_dit["label_propagation"] = lp_sc[0]
     sc_dit["leiden"] = ld_sc[0]
-    sc_dit["multilevel"] = ml_sc[0]
+    sc_dit["louvain"] = ml_sc[0]
     sc_dit["no_partition"] = nop_sc[0]
     sc_dit = dict(sorted(sc_dit.items(), key=lambda x: x[1], reverse=True)) # reverse sort
     md = next(iter(sc_dit))
@@ -91,7 +97,7 @@ def partitioning(g_nx, md):
             time1 = time.time()
             partitions = g_ig.community_leiden("modularity")
             time2 = time.time() - time1
-        elif md=="multilevel":
+        elif md=="louvain":
             time1 = time.time()
             partitions = g_ig.community_multilevel()
             time2 = time.time() - time1

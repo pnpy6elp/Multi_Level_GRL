@@ -10,16 +10,38 @@ An implementation of ML-GRL.
 - networkx 3.1
 - igraph 0.9.9
 
+# Dataset
+Dataset used in the experiment.
+- [Foursquare](https://sites.google.com/site/yangdingqi/home/foursquare-dataset)
+
+Other datasets can be obtained from [Pytorch Geometric](https://pytorch-geometric.readthedocs.io/en/latest/modules/datasets.html) library. 
+
+# GRL Model
+- [ClusterSCL](https://github.com/wyl7/ClusterSCL/tree/main) (WWW 2022)
+
+Other models are from [Pytorch Geometric](https://pytorch-geometric.readthedocs.io/en/latest/modules/nn.html) library. 
+
 # Run
+## Offline Phase
 ```
-python main.py --num_epochs 10 --batch_size 128 --dataset wikics --model graphsage --model_path ./new_model2 --core 35 --minor 100 --sim 0.95 --task link
+python run_offline.py --num_epochs 10 --batch_size 128 --dataset wikics --model graphsage --model_path ./new_model2 --core 35 --minor 100 --sim 0.95 --task link
 ```
 - `--num_epochs`: the number of epochs.
 - `--batch_size`: batch size.
-- `--dataset`: the name of dataset. (wikics, coauthor_physics, coauthor_cs, deezereu, foursquare)
-- `--model`: the model of graph representation learning. (graphsage, arma, asap, gat, gt)
+- `--dataset`: the name of dataset (wikics, coauthor_physics, coauthor_cs, deezereu, foursquare).
+- `--model`: the model of graph representation learning (graphsage, arma, asap, gat, gt).
 - `--model_path`: the path of the prediction models.
 - `--core`: the number of CPU cores for multiprocessing.
 - `--minor`: the threshold of minor communities.
 - `--sim`: the threshold of similarity.
-- `--task`: the type of downstream task. (link, node)
+- `--task`: the type of downstream task (link, node).
+
+## Online phase
+```
+python run_online.py --num_neighbors 5 --size 128 --partitioning leiden --model graphsage --task link
+```
+- `--num_neighbors`: the number of neighbors.
+- `--size`: the number of fixed-sampled nodes.
+- `--partitioning`: Community detection algorithm (fastgreedy, label_propagatio, infomap, leiden, louvain).
+- `--model`: the model of graph representation learning (graphsage, arma, asap, gat, gt).
+- `--task`: the type of downstream task (link, node).

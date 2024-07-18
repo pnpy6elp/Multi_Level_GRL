@@ -4,7 +4,7 @@ from torch_geometric.utils.convert import to_networkx, from_networkx as fn
 import torch.nn.functional as F
 from sklearn.linear_model import LogisticRegression
 import torch_geometric.transforms as T
-from torch_geometric.nn import SAGEConv, GATConv, LEConv, ARMAConv, TransformerConv
+from torch_geometric.nn import SAGEConv, GATConv, ASAPooling, LEConv, ARMAConv, TransformerConv
 from torch_geometric.datasets import *
 from torch_geometric.data import NeighborSampler as RawNeighborSampler
 from torch import Tensor

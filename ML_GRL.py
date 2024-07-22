@@ -55,7 +55,7 @@ def merge_nodes(graph, nodes_to_merge, new_num, nx_list_feature,task):
     
     return graph
 
-def process_graph(g, minor_thres, minor_node_id,task):
+def process_graph(g, minor_thres, minor_node_id,task): # merge minor communities
     
     graph = g.copy()
     

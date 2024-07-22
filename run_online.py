@@ -274,7 +274,7 @@ if __name__ == "__main__":
 
     if task=="link":
         minor_result = run_for_link(superG_pyg, epoch, batch,model_name)
-    elif task=="link":
+    elif task=="node":
         minor_result = run_for_node(superG_pyg, epoch, batch,model_name)
     tt2 = time.time() - tt
     print(f"minor grl time : {tt2} secs")
@@ -291,7 +291,7 @@ if __name__ == "__main__":
 
     if task=="link":
         acc = run_prediction(origin_x, epoch)
-    elif task=="link":
+    elif task=="node":
         acc = run_classification(tmp_emb,origin_x.y,128,10)
 
     print(acc)

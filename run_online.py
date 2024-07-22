@@ -36,7 +36,7 @@ if __name__ == "__main__":
     epoch = args.num_epochs
     batch = args.batch_size
     model_name = args.model
-    file_name = args.file_name
+    prediction_path = args.model_path
     minor_thres = args.minor
     delta = args.delta
     core =args.core

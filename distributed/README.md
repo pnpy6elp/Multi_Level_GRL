@@ -6,9 +6,13 @@ An implementation of ML-GRL.
 
 1. Setup NFS.
 - Master Node
-```sudo apt-get install nfs-kernel-server```
+```
+sudo apt-get install nfs-kernel-server
+```
 - Worker Node
-```sudo apt-get install nfs-common```
+```
+sudo apt-get install nfs-common
+```
 
 2. Run main.py
 

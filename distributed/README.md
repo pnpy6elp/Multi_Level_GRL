@@ -14,7 +14,8 @@ An implementation of ML-GRL.
 
 ```
 python main.py --num_epochs 10 --batch_size 128 --dataset wikics --model graphsage  --model_path ./new_model2 --core 35 --minor 100 --sim 0.95 --task link
---ip_config ip_config.txt```
+--ip_config ip_config.txt
+```
 - `--num_epochs`: the number of epochs.
 - `--batch_size`: batch size.
 - `--dataset`: the name of dataset (wikics, coauthor_physics, coauthor_cs, deezereu, foursquare).

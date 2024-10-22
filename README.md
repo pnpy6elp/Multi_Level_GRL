@@ -25,13 +25,14 @@ Other models are from [Pytorch Geometric](https://pytorch-geometric.readthedocs.
 # Run
 ## Offline Phase
 ```
-python run_offline.py --num_epochs 10 --batch_size 128 --dataset wikics --model graphsage --model_path ./new_model2 --core 35 --minor 100 --sim 0.95 --task link
+python run_offline.py --num_epochs 10 --batch_size 128 --dataset wikics --model graphsage --partitioning leiden  --model_path ./new_model2 --core 35 --minor 100 --sim 0.95 --task link
 ```
 - `--num_epochs`: the number of epochs.
 - `--batch_size`: batch size.
 - `--dataset`: the name of dataset (wikics, coauthor_physics, coauthor_cs, deezereu, foursquare).
 - `--model`: the model of graph representation learning (graphsage, arma, asap, gat, gt).
 - `--model_path`: the path of the prediction models.
+- `--partitioning`: Community detection algorithm (fastgreedy, label_propagatio, infomap, leiden, louvain).
 - `--core`: the number of CPU cores for multiprocessing.
 - `--minor`: the threshold of minor communities.
 - `--sim`: the threshold of similarity.
@@ -39,10 +40,9 @@ python run_offline.py --num_epochs 10 --batch_size 128 --dataset wikics --model 
 
 ## Online phase
 ```
-python run_online.py --num_neighbors 5 --size 128 --partitioning leiden --model graphsage --task link
+python run_online.py --num_neighbors 5 --size 128 --model graphsage --task link
 ```
 - `--num_neighbors`: the number of neighbors.
 - `--size`: the number of fixed-sampled nodes.
-- `--partitioning`: Community detection algorithm (fastgreedy, label_propagatio, infomap, leiden, louvain).
 - `--model`: the model of graph representation learning (graphsage, arma, asap, gat, gt).
 - `--task`: the type of downstream task (link, node).

@@ -31,6 +31,7 @@ python run_offline.py --num_neighbors 5 --size 128 --model graphsage --task link
 - `--size`: the number of fixed-sampled nodes.
 - `--model`: the model of graph representation learning (graphsage, arma, asap, gat, gt).
 - `--task`: the type of downstream task (link, node).
+- `--partitioning`: Community detection algorithm (fastgreedy, label_propagatio, infomap, leiden, louvain).
 
 ## Online phase
 ```
@@ -41,7 +42,6 @@ python run_online.py --num_epochs 10 --batch_size 128 --dataset wikics --model g
 - `--dataset`: the name of dataset (wikics, coauthor_physics, coauthor_cs, deezereu, foursquare).
 - `--model`: the model of graph representation learning (graphsage, arma, asap, gat, gt).
 - `--model_path`: the path of the prediction models.
-- `--partitioning`: Community detection algorithm (fastgreedy, label_propagatio, infomap, leiden, louvain).
 - `--core`: the number of CPU cores for multiprocessing.
 - `--minor`: the threshold of minor communities.
 - `--sim`: the threshold of similarity.

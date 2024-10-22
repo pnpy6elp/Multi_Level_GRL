@@ -25,7 +25,16 @@ Other models are from [Pytorch Geometric](https://pytorch-geometric.readthedocs.
 # Run
 ## Offline Phase
 ```
-python run_offline.py --num_epochs 10 --batch_size 128 --dataset wikics --model graphsage --partitioning leiden  --model_path ./new_model2 --core 35 --minor 100 --sim 0.95 --task link
+python run_offline.py --num_neighbors 5 --size 128 --model graphsage --task link --partitioning leiden
+```
+- `--num_neighbors`: the number of neighbors.
+- `--size`: the number of fixed-sampled nodes.
+- `--model`: the model of graph representation learning (graphsage, arma, asap, gat, gt).
+- `--task`: the type of downstream task (link, node).
+
+## Online phase
+```
+python run_online.py --num_epochs 10 --batch_size 128 --dataset wikics --model graphsage  --model_path ./new_model2 --core 35 --minor 100 --sim 0.95 --task link
 ```
 - `--num_epochs`: the number of epochs.
 - `--batch_size`: batch size.
@@ -38,11 +47,3 @@ python run_offline.py --num_epochs 10 --batch_size 128 --dataset wikics --model 
 - `--sim`: the threshold of similarity.
 - `--task`: the type of downstream task (link, node).
 
-## Online phase
-```
-python run_online.py --num_neighbors 5 --size 128 --model graphsage --task link
-```
-- `--num_neighbors`: the number of neighbors.
-- `--size`: the number of fixed-sampled nodes.
-- `--model`: the model of graph representation learning (graphsage, arma, asap, gat, gt).
-- `--task`: the type of downstream task (link, node).

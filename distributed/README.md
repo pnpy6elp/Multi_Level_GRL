@@ -4,6 +4,8 @@ An implementation of ML-GRL.
 
 # Run
 
+## Environment Setup
+You can either use Sockets for communication or utilize NFS. In the case of NFS, please follow the manual below.
 1. Setup NFS.
 - Master Node
 ```

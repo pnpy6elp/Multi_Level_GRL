@@ -1,5 +1,7 @@
 from utils import *
 from models import *
+import networkx as nx
+import heapq
 
 def recursive_partitioning(graph, minor_thres, delta, current_depth, subgraphs_final):
     
@@ -35,55 +37,75 @@ def recursive_partitioning(graph, minor_thres, delta, current_depth, subgraphs_f
     return result_subgraphs
 
 
-def merge_nodes(graph, nodes_to_merge, new_num, nx_list_feature,task):
-    new_node = len(graph.vs)
-    if task=="node":
-        graph.add_vertex(name=new_node,_nx_name = graph.vs[nodes_to_merge[0]]['_nx_name'],x=graph.vs[nodes_to_merge[0]]['x'],y=graph.vs[nodes_to_merge[0]]['y'],num=new_num, nx_list=nx_list_feature)
-    elif task=="link":
-        graph.add_vertex(name=new_node,_nx_name = graph.vs[nodes_to_merge[0]]['_nx_name'],x=graph.vs[nodes_to_merge[0]]['x'],num=new_num, nx_list=nx_list_feature)
+
+
+# Merge two nodes in the graph, connecting neighbors
+def merge_nodes(graph, nodes_to_merge, new_num, nx_list_feature, task):
+    new_node = len(graph.nodes)
     
+    # Add the merged node with attributes
+    if task == "node":
+        graph.add_node(new_node, _nx_name=graph.nodes[nodes_to_merge[0]]['_nx_name'],
+                       x=graph.nodes[nodes_to_merge[0]]['x'],
+                       y=graph.nodes[nodes_to_merge[0]]['y'],
+                       num=new_num, nx_list=nx_list_feature)
+    elif task == "link":
+        graph.add_node(new_node, _nx_name=graph.nodes[nodes_to_merge[0]]['_nx_name'],
+                       x=graph.nodes[nodes_to_merge[0]]['x'],
+                       num=new_num, nx_list=nx_list_feature)
+    
+    # Add edges for neighbors not in nodes_to_merge
     edges_to_add = []
     for n in nodes_to_merge:
-        neighbors = graph.neighbors(n, mode="all")
+        neighbors = graph.neighbors(n)
         for neighbor in neighbors:
             if neighbor not in nodes_to_merge:
                 edges_to_add.append((new_node, neighbor))
     
-    graph.add_edges(edges_to_add)
-    graph.delete_vertices(nodes_to_merge)
-    graph.simplify()
+    graph.add_edges_from(edges_to_add)
+    graph.remove_nodes_from(nodes_to_merge)
+
+    return graph
+
+# Process the graph to merge minor communities
+def process_graph(graph, minor_thres, minor_node_id, task):
+    # Initialize heap for nodes sorted by 'num'
+    heap = [(graph.nodes[n]['num'], n) for n in graph.nodes if graph.degree[n] > 0]
+    heapq.heapify(heap)
+
+    # Cache neighbors for each node to avoid recalculating
+    node_neighbors = {n: list(graph.neighbors(n)) for n in graph.nodes}
+
+    while heap:
+        # Extract the node with the smallest 'num'
+        _, start_node = heapq.heappop(heap)
+        
+        if graph.nodes[start_node]['num'] >= minor_thres:
+            break
+
+        # Get the first 1-hop neighbor
+        neighbors = node_neighbors[start_node]
+        if not neighbors:
+            continue
+        
+        neighbors_minor = neighbors[0]
+        
+        # Merge the nodes
+        current = graph.nodes[start_node]['num'] + graph.nodes[neighbors_minor]['num']
+        nx_list = graph.nodes[start_node]['nx_list'] + graph.nodes[neighbors_minor]['nx_list']
+        
+        graph = merge_nodes(graph, [start_node, neighbors_minor], current, nx_list, task)
+
+        # Update the heap and neighbor cache after merging
+        for n in [start_node, neighbors_minor]:
+            if n in node_neighbors:
+                del node_neighbors[n]
+        
+        # Update heap with the new node
+        heapq.heappush(heap, (current, len(graph.nodes) - 1))
     
     return graph
 
-def process_graph(g, minor_thres, minor_node_id,task): # merge minor communities
-    
-    graph = g.copy()
-    
-    graph.vs['nx_list'] = np.array(graph.vs['_nx_name']).reshape(-1,1).tolist()
-
-    
-    while True:
-        nodes_sorted_by_num = sorted(graph.vs, key=lambda n: n['num'])
-        nodes_sorted_by_num = [k for k in nodes_sorted_by_num if graph.degree(k.index) > 0] # except isolated clusters
-        
-        if not nodes_sorted_by_num:
-            print("Isolated nodes only")
-            break
-        start_node = nodes_sorted_by_num[0].index
-        start_num = graph.vs[start_node]['num']
-        
-        if start_num >= minor_thres:
-            break
-            
-        bfs_result = graph.bfs(start_node)
-        neighbors_minor = [x for x in bfs_result[0][1:]][0] 
-        current = start_num + graph.vs[neighbors_minor]['num']
-        nx_list = graph.vs[start_node]['nx_list']
-        nx_list.extend(graph.vs[neighbors_minor]['nx_list'])
-        graph = merge_nodes(graph, [start_node, neighbors_minor], current, nx_list,task)
-        
-            
-    return graph
 
 def merge_major(subgraphs, minor_thres, minor_node_id):
     major_super_feat = {}

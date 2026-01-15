@@ -69,7 +69,7 @@ if __name__ == "__main__":
     graph_list.append(flickr)
     graph_list.append(amazon)
     graph_list.append(reddit)
-    graph_list.append(facebook)
+    #graph_list.append(facebook)
 
     sample_list = []
 
@@ -81,7 +81,7 @@ if __name__ == "__main__":
 
     for sample in sample_list:
         gg = copy.copy(sample)
-        sample_nx = to_networkx(sample,node_attrs=["x"])
+        sample_nx = to_networkx(sample,node_attrs=["x"], to_undirected=True)
         features = get_features(sample_nx)
         features_all.append(features)
 

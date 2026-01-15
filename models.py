@@ -57,8 +57,7 @@ class ASAP(torch.nn.Module):
     def __init__(self, input_dim, hidden_channels):
         super().__init__()
 
-        # pool = ASAPooling(input_dim, ratio=0.5, GNN=LEConv,
-                          add_self_loops=False)
+        # pool = ASAPooling(input_dim, ratio=0.5, GNN=LEConv, add_self_loops=False)
         self.conv1 = LEConv(input_dim, hidden_channels)
         self.conv2 = LEConv(hidden_channels, hidden_channels)
         self.conv3 = torch.nn.Linear(hidden_channels, 64) 
@@ -75,7 +74,7 @@ class ASAP(torch.nn.Module):
         )  # product of a pair of nodes on each edge
     
 
-    class GT(torch.nn.Module):
+class GT(torch.nn.Module):
     def __init__(self, input_dim, hidden_channels):
         super(GT, self).__init__()
         self.conv1 = TransformerConv(input_dim, hidden_channels,dropout=0.5) 

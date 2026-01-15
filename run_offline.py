@@ -59,7 +59,7 @@ if __name__ == "__main__":
     flickr = Flickr("./Flickr")[0]
     amazon = Amazon("./Amazon","Computers")[0]
     reddit = Reddit2("./Reddit2")[0]
-    facebook = FacebookPagePage("./FacebookPagePage")[0]
+    #facebook = FacebookPagePage("./FacebookPagePage")[0]
 
 
     graph_list = []

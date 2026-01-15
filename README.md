@@ -11,6 +11,12 @@ The source code for "Multi-Level Graph Representation Learning Through Predictiv
 - networkx 3.1
 - igraph 0.9.9
 
+Please refer to `requirements.txt`. 
+You can install the required packages via the below command:
+```
+pip install -r requirements.txt
+```
+
 # Dataset
 Dataset used in the experiment.
 - [Foursquare](https://sites.google.com/site/yangdingqi/home/foursquare-dataset)

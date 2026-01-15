@@ -28,7 +28,7 @@ Other datasets can be obtained from [Pytorch Geometric](https://pytorch-geometri
 
 Other models are from [Pytorch Geometric](https://pytorch-geometric.readthedocs.io/en/latest/modules/nn.html) library. 
 
-# Run
+# Quick Start
 ## Offline Phase
 ```
 python run_offline.py --num_neighbors 5 --size 128 --model graphsage --task link --partitioning leiden
@@ -37,7 +37,7 @@ python run_offline.py --num_neighbors 5 --size 128 --model graphsage --task link
 - `--size`: the number of fixed-sampled nodes.
 - `--model`: the model of graph representation learning (graphsage, arma, asap, gat, gt).
 - `--task`: the type of downstream task (link, node).
-- `--partitioning`: Community detection algorithm (fastgreedy, label_propagatio, infomap, leiden, louvain).
+- `--partitioning`: Community detection algorithm (fastgreedy, label_propagation, infomap, leiden, louvain).
 
 ## Online phase
 ```
